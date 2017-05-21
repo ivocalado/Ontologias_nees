@@ -13,7 +13,7 @@
 <%@page import="com.mongodb.MongoClient" %>
 <%@page import="com.mongodb.*" %>
 <%@page import="com.mongodb.util.JSON" %>
-<%@page import="com.google.gson" %>
+<%@page import="com.google.gson.*" %>
 <%@page import="com.abuarquemf.persistence.DataBaseHandler" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
