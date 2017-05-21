@@ -1,5 +1,8 @@
 package com.abuarquemf.persistence;
 
+import com.abuarquemf.entities.Avatar;
+import com.abuarquemf.entities.Emotion;
+import com.abuarquemf.entities.EmotionType;
 import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
@@ -15,21 +18,22 @@ import java.util.List;
  * pass : nees_2017_ontology
  */
 public class DataBaseHandler {
-    private static MongoClient mongoClient;
-    private static DB db;
-    private static DBCollection collection;
+    private MongoClient mongoClient;
+    private DB db;
+    private DBCollection collection;
 
     private static final String USER = "nees_user";
     private static final String PASS = "nees_2017_ontology";
     private static final String URL_DATABASE = "mongodb://" + USER + ":" + PASS + "@ds023000.mlab.com:23000/ontology_frontend";
 
+    /*
     static {
         try {
             mongoClient = new MongoClient(new MongoClientURI(URL_DATABASE));
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     /**
      * Implementing Singleton design pattern. Such design pattern guarantee a single instance in the whole system
@@ -38,11 +42,17 @@ public class DataBaseHandler {
     private List<Avatar> avatars;
 
     private DataBaseHandler() {
-        avatars = new ArrayList<>();
+        //avatars = new ArrayList<>();
+        try {
+            mongoClient = new MongoClient(new MongoClientURI(URL_DATABASE));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         db = mongoClient.getDB("ontology_frontend");
         collection = db.getCollection("hello_test");
-        //doBootStrap(); //Just a temporary call. The in production the mongo database will store values
+        //doBootStrap();
     }
+
 
     public void saveAvatar(Avatar avatar) {
         Gson gson = new Gson();
@@ -97,8 +107,6 @@ public class DataBaseHandler {
     }
 
     /*
-
-
     public void addAvatar(Avatar a) {
         avatars.add(a);
     }
@@ -118,7 +126,7 @@ public class DataBaseHandler {
         }
         return null;
 
-    }
+    } */
 
     //get files from MongoDB
     private void doBootStrap() {
@@ -134,8 +142,7 @@ public class DataBaseHandler {
 
         Avatar a = new Avatar("adriana_marangoni", emotions);
         Avatar b = new Avatar("anna_costa", emotions);
-        addAvatar(a);
-        addAvatar(b);
-
-    }*/
+        avatars.add(a);
+        avatars.add(b);
+    }
 }
